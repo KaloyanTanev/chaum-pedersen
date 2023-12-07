@@ -1,0 +1,4 @@
+grpcio==1.59.3
+grpcio-tools==1.59.3
+redis==5.0.1
+gensafeprime==1.6

@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  peggy:
+    image: peggy:latest
+    container_name: peggy
+    build:
+      context: "./"
+      dockerfile: ./dockerfiles/Dockerfile.peggy
+    environment:
+      - SERVER_HOST=victor
+      - SERVER_PORT=50051
+    depends_on: [victor]
+
+  victor:
+    image: victor:latest
+    container_name: victor
+    build:
+      context: "./"
+      dockerfile: ./dockerfiles/Dockerfile.victor
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=dummy
+    ports:
+      - published: 50051
+        target: 50051
+    depends_on: [redis]
+
+  redis:
+    image: redis:alpine3.18
+    container_name: redis
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --requirepass
+      - dummy
+    ports:
+      - published: 6379
+        target: 6379
+    healthcheck:
+      test: "redis-cli ping"
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    restart: always

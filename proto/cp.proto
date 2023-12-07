@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+service Cp {
+  rpc Register (RegisterRequest) returns (RegisterResponse) {}
+  rpc LoginRoundOne (LoginRequestRoundOne) returns (LoginResponseRoundOne) {}
+  rpc LoginRoundTwo (LoginRequestRoundTwo) returns (LoginResponseRoundTwo) {}
+}
+
+message RegisterRequest {
+  string y1 = 1;
+  string y2 = 2;
+  string p = 3;
+}
+
+message RegisterResponse {
+  string id = 1;
+  string error = 2;
+}
+
+message LoginRequestRoundOne {
+  string id = 1;
+  string r1 = 2;
+  string r2 = 3;
+}
+
+message LoginResponseRoundOne {
+  string c = 1;
+  string error = 2;
+}
+
+message LoginRequestRoundTwo {
+  string id = 1;
+  string s = 2;
+}
+
+message LoginResponseRoundTwo {
+  bool b = 1;
+  string error = 2;
+}
